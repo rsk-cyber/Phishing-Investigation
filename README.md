@@ -1,10 +1,11 @@
-# Phishing Email Analysis
+# Phishing Email Investigation – AsyncRAT Delivery Campaign
 
-**Phishing is one of the most common methods attackers use to gain initial access, often deploying malware or stealing credentials. This campaign targets an educational institution with a fake $625,000 invoice. Analyzing the email using Notepad++, URLhaus, and threat intel feeds helps extract IOCs, validate SPF/DKIM, and recommend mitigation strategies. Investigating these emails identifies attacker infrastructure, blocks threats, and prevents broader compromise.**
-
-> **Date of Analysis:** 2026-02-10  
-> **Analyst:** Rasaq  
-> **Simulation/Real Incident:** Simulation
+> Analyst: Rasaq  
+> Date: 2026-02-10  
+> Incident Type: Phishing / Malware Delivery  
+> Severity: High  
+> Status: Contained  
+> Environment: Windows Endpoint
 
 ---
 

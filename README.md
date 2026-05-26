@@ -53,18 +53,29 @@ Analysis confirmed the malware family as **AsyncRAT**.
 | 10:05 UTC | Outbound C2 communication observed |
 
 ---
+
+# Initial Triage
+
+## Why Was This Suspicious?
+
+The email demonstrated several phishing indicators:
+- Generic invoice/payment lure
+- Suspicious executable download
+- Failed SPF/DKIM validation
+- Mismatch between sender behavior and email theme
+- External infrastructure hosting executable payloads
+
+---
+
 ## 📧 Email Metadata
 
 | Field | Value |
-|-------|-------|
-| Subject | `COMMERCIAL PURCHASE RECEIPT ONLINE` |
-| From (Display Name) | `ERIKA JOHANA LOPEZ VALIENTE` |
-| From (Envelope) | `erikajohana.lopez@uptc.edu.co` |
-| Reply-To | `undisclosed-recipients` |
-| Return-Path | `erikajohana.lopez@uptc.edu.co` |
-| Date/Time  | `2022-10-09 09:58:26` |
-| Message-ID | `CABWu4iua5_uex6=G8pi_OJz1tBLJiNakMK-1=7128orpzxbKxw@mail.gmail.com` |
-| Recipient | `undisclosed-recipients` |
+|---|---|
+| Subject | COMMERCIAL PURCHASE RECEIPT ONLINE |
+| Sender | erikajohana.lopez@uptc.edu.co |
+| Reply-To | undisclosed-recipients |
+| Message-ID | CABWu4iua5... |
+| Timestamp | 2022-10-09 09:58:26 |
 
 <img width="646" height="162" alt="Sender" src="https://github.com/user-attachments/assets/481d003b-f77d-4a09-9920-c3fbbb276dd4" />
 
@@ -72,13 +83,11 @@ Analysis confirmed the malware family as **AsyncRAT**.
 
 ## 🔍 Header Authentication Analysis
 
-| Mechanism | Value / Status | Verdict |
-|-----------|----------------|---------|
-| **SPF** (Received-SPF) | ` softfail ` |  ❌  |
-| **DKIM** (d= selector) | ` fail ` |  ❌ |
-| **DMARC** (policy from DNS) | `p=none ` | ⚠️ |
-| **Source IP (first relay)** | `18.208.22.104` | Reputation: clean (Amazon)|
-| **ASN / Geo** | `AS14618, United States of America` | |
+| Control | Result | Verdict |
+|---|---|---|
+| SPF | Softfail | Suspicious |
+| DKIM | Failed | Suspicious |
+| DMARC | None | Weak Protection |
 
 <img width="622" height="93" alt="Authentication result" src="https://github.com/user-attachments/assets/c44ada1d-fc33-49e7-b5b1-2b61dd00bf44" />
 

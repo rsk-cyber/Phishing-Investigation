@@ -89,13 +89,24 @@ The email demonstrated several phishing indicators:
 | DKIM | Failed | Suspicious |
 | DMARC | None | Weak Protection |
 
+## Source Infrastructure
+
+| Indicator | Value |
+|---|---|
+| Source IP | 18.208.22.104 |
+| ASN | AS14618 |
+| Hosting Provider | Amazon AWS |
+
+## Analyst Notes
+Although the source IP belonged to Amazon infrastructure, SPF and DKIM failures indicated sender authenticity issues commonly associated with phishing campaigns leveraging cloud infrastructure.
+
+---
 <img width="622" height="93" alt="Authentication result" src="https://github.com/user-attachments/assets/c44ada1d-fc33-49e7-b5b1-2b61dd00bf44" />
 
 <img width="1895" height="655" alt="Source IP_amazon" src="https://github.com/user-attachments/assets/be50d65a-1d39-4b9a-a4c3-b72995c16a55" />
 
 <img width="667" height="573" alt="IP Location" src="https://github.com/user-attachments/assets/19f592fc-1f49-4f30-8218-ba977e6d7f1b" />
 
----
 
 ## 🔗 URL & Attachment Analysis
 
@@ -148,7 +159,22 @@ Executed D41tYapPDr.exe, which launched powershell.exe -enc with a Base64‑enco
 | Defense Evasion | T1055 | Process Injection | Code injected into suspended process |
 | Command & Control | T1071.001 | Application Layer Protocol: Web Protocols | HTTP communication to C2 `107.175.247.199` |
 
-## 🛡️ Mitigation Recommendations
+# Threat Assessment
+
+## Potential Impact
+
+If executed successfully, AsyncRAT could enable:
+
+- Remote access
+- Credential theft
+- Keylogging
+- Data exfiltration
+- Lateral movement
+- Persistence within environment
+
+---
+
+## 🛡️ Mitigation
 
 - [ ] **Email gateway** – Block sender IP `209.85.221.65` (Google outbound) and hosting IP `107.175.247.199`. Add regex for subject lines containing "COMMERCIAL PURCHASE RECEIPT" or "ONLINE 27 NOV". Quarantine any email with a link to `/loader/install.exe` pattern.
 
@@ -179,32 +205,41 @@ Executed D41tYapPDr.exe, which launched powershell.exe -enc with a Base64‑enco
 - [ ] **EDR hunting** – Query for processes with `-enc` flag in command line, especially those launching from temporary or desktop folders. Hunt for processes that create multiple suspended child processes of the same executable.
 
 ---
+# Recommendations
 
-## 📈 Lessons Learned & Reflection
+## Email Security
+- Improve anti-phishing filtering
+- Block executable downloads
+- Enforce attachment sandboxing
 
-- **What worked well:**  
-  - SPF and DMARC checks quickly confirmed the email originated from a legitimate Google IP (209.85.221.65) spoofing the `uptc.edu.co` domain, highlighting that authentication alone does not guarantee safety.  
-  - VirusTotal and Malpedia identified the payload as AsyncRAT (trojan.msil/scarsi) with 53/72 detections, providing immediate threat context.  
-  - Joe Sandbox’s 100% confidence detonation clearly showed process injection, encoded PowerShell, registry persistence, and C2 communication, enabling swift IOC extraction.
+## Endpoint Security
+- Restrict PowerShell abuse
+- Monitor AppData execution
+- Alert on encoded commands
 
-- **What could be improved:**  
-  - Automate extraction and decoding of Base64‑encoded PowerShell commands (e.g., using CyberChef or a Python script) to reveal the full script without manual effort.  
-  - Implement an internal blocklist for IP `107.175.247.199` and file hash `34793C6520DCF3C6130DC031FA640C71` across all endpoints and email gateways.  
-  - Enhance email gateway rules to detect executable downloads from newly registered or low‑reputation domains/IPs even when SPF/DKIM pass.
-
-- **Key takeaway:**  
-  - An email that passes SPF, DKIM, and DMARC can still deliver malware. Always sandbox links and attachments – never trust authentication headers alone.  
-  - AsyncRAT establishes persistence via `HKCU\...\Run` and drops copies in `%AppData%\Roaming\`, so these locations should be routinely checked during incident response.  
-  - Process trees revealing multiple suspended instances of the same executable or `powershell -enc` are high‑confidence IOCs for code injection and should trigger immediate containment.
+## User Awareness
+- Conduct phishing simulations
+- Educate users on invoice lures
 
 ---
 
-## 🔗 References / Tools Used
+# Lessons Learned
 
+- SPF/DKIM alone do not guarantee legitimacy
+- Encoded PowerShell remains a strong detection opportunity
+- Process injection + registry persistence are high-confidence malware indicators
+
+---
+
+
+# References / Tools Used
+
+- MITRE ATT&CK
+- AsyncRAT Malware Analysis
+- Threat Intelligence
 - Email Header Analyzer Notepad++
 - URLhaus / VirusTotal / AbuseIPDB
-- `CyberChef`
-
+- CyberChef
 ---
 
 *Template last updated: 2026-02-10*

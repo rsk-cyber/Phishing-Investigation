@@ -26,6 +26,31 @@ The investigation included:
 
 Analysis confirmed the malware family as **AsyncRAT**.
 
+---
+
+# Incident Overview
+
+| Category | Details |
+|---|---|
+| Attack Type | Phishing |
+| Malware Family | AsyncRAT |
+| Delivery Method | Malicious URL |
+| Initial Vector | Email |
+| Objective | Malware Deployment / Remote Access |
+| Impact | Potential endpoint compromise |
+| Severity | High |
+
+---
+# Investigation Timeline
+
+| Time | Event |
+|---|---|
+| 09:58 UTC | Phishing email received |
+| 10:01 UTC | User clicked malicious URL |
+| 10:02 UTC | `install.exe` downloaded |
+| 10:03 UTC | PowerShell executed encoded payload |
+| 10:04 UTC | Registry persistence established |
+| 10:05 UTC | Outbound C2 communication observed |
 
 ---
 ## 📧 Email Metadata

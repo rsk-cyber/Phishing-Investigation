@@ -9,6 +9,25 @@
 
 ---
 
+# Executive Summary
+
+A phishing email impersonating a commercial purchase receipt was delivered to organizational users with the objective of distributing AsyncRAT malware.
+
+The email contained a malicious URL that downloaded a payload (`install.exe`) from attacker-controlled infrastructure hosted at `107.175.247.199`. Sandbox detonation confirmed execution of obfuscated PowerShell commands, process injection behavior, persistence via registry Run keys, and outbound command-and-control (C2) communication.
+
+The investigation included:
+- Email header analysis
+- Threat intelligence enrichment
+- URL reputation analysis
+- Malware detonation
+- IOC extraction
+- MITRE ATT&CK mapping
+- Containment recommendations
+
+Analysis confirmed the malware family as **AsyncRAT**.
+
+
+---
 ## 📧 Email Metadata
 
 | Field | Value |
